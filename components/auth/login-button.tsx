@@ -1,6 +1,6 @@
 "use client"
 
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { FC, ReactNode, useCallback } from "react";
 
 enum eMode {
@@ -20,7 +20,7 @@ const LoginButton: FC<LoginButtonProps> = (props) => {
 
 
   const onClick = useCallback(() => {
-    router.push("/auth")
+    router.push("/login")
   }, [router])
 
   if(mode === eMode.modal) {
