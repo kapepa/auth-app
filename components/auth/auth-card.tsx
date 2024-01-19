@@ -45,7 +45,7 @@ const AuthCard: FC<AuthCardProps> = memo((props) => {
   }, [])
 
   return (
-    <Card className="w-[400] shadow-md bg-white ">
+    <Card className="w-[30rem] shadow-md bg-white ">
       {HeaderPart}
       {ContentPart}
       {FooterPart}

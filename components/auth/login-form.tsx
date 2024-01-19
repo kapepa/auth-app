@@ -1,6 +1,6 @@
 "use client"
 
-import { memo, useCallback, useMemo } from "react";
+import { memo, useCallback, useMemo, useState, useTransition } from "react";
 import { AuthCard } from "./auth-card";
 import { Social } from "./social";
 import { BackButton } from "./back-button";
@@ -10,7 +10,6 @@ import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -21,9 +20,15 @@ import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../ui/button";
 import { LoginSchema } from "@/schemas";
-import { FormError } from "../form-error";
+import { FormError } from "../ui/form-error";
+import { FormSuccess } from "../ui/form-success";
+import { login } from "@/action/login";
 
 const LoginForm = memo(() => {
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
+  const [isPending, startTransition] = useTransition();
+
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -33,7 +38,16 @@ const LoginForm = memo(() => {
   });
 
   const onSubmit = useCallback((values: z.infer<typeof LoginSchema>) => {
-    console.log(values)
+    setError("");
+    setSuccess("");
+
+    startTransition(() => {
+      login(values).then((data) =>{
+        console.log(data.error)
+        setError(data.error)
+        // setSuccess(data.success)
+      });
+    });
   }, [])
 
   const contentPart = useMemo(() => {
@@ -51,10 +65,11 @@ const LoginForm = memo(() => {
                     <Input 
                       placeholder="email@example.com"
                       type="email"
+                      disabled={isPending}
                       {...field} 
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-600" />
                 </FormItem>
               )}
             />
@@ -68,24 +83,27 @@ const LoginForm = memo(() => {
                     <Input 
                       placeholder="******"
                       type="password"
+                      disabled={isPending}
                       {...field} 
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-600" />
                 </FormItem>
               )}
             />
-            <FormError message="Something went wrong!"/>
+            <FormError message={error}/>
+            <FormSuccess message={success} />
             <Button 
               type="submit"
-              className="w-full"
+              className="w-full bg-slate-900 text-rose-50"
+              disabled={isPending}
             >Login</Button>
           </form>
         </Form>
         <Social/>
       </div>
     )
-  }, [])
+  }, [form.formState.errors, isPending, error, success])
 
   const footerPart = useMemo(() => {
     return (
