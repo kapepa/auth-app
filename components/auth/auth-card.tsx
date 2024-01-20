@@ -40,9 +40,9 @@ const AuthCard: FC<AuthCardProps> = memo((props) => {
     if(!footer) return;
 
     return (
-      <CardFooter children={footer} />
+      <CardFooter className="justify-center" children={footer} />
     )
-  }, [])
+  }, [footer])
 
   return (
     <Card className="w-[30rem] shadow-md bg-white ">

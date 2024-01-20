@@ -1,8 +1,8 @@
+import { RegistrationForm } from "@/components/auth/registration-form";
+
 const PageRegistration = () => {
   return (
-    <div>
-      Registration
-    </div>
+    <RegistrationForm/>
   )
 }
 
