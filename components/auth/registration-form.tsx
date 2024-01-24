@@ -44,8 +44,8 @@ const RegistrationForm = memo(() => {
 
     startTransition(() => {
       Registration(values).then((data) =>{
-        setError(data.error)
-        setSuccess(data.success)
+        setError(data.error);
+        setSuccess(data.success);
       });
     });
   }, [])
