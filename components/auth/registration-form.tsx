@@ -48,7 +48,7 @@ const RegistrationForm = memo(() => {
         setSuccess(data.success);
       });
     });
-  }, [])
+  }, []);
 
   const contentPart = useMemo(() => {
     return (
