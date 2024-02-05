@@ -3,16 +3,12 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import type { NextAuthConfig } from "next-auth"
 import { LoginSchema } from "./schemas";
 import { getUserByEmail } from "./data/user";
-import bcrypt from "bcrypt"
+import bcrypt from "bcryptjs"
 
 export default {
   providers: [
     CredentialsProvider({
       name: "Credentials",
-      credentials: {
-        username: { label: "Username", type: "text", placeholder: "jsmith" },
-        password: {  label: "Password", type: "password" }
-      },
       async authorize(credentials, req) {
         const validateFields = LoginSchema.safeParse(credentials);
   
