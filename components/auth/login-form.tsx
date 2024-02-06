@@ -23,8 +23,12 @@ import { LoginSchema } from "@/schemas";
 import { FormError } from "../ui/form-error";
 import { FormSuccess } from "../ui/form-success";
 import { login } from "@/action/login";
+import { useSearchParams } from "next/navigation";
 
 const LoginForm = memo(() => {
+  const searchParam = useSearchParams();
+  const urlError = searchParam.get("error") === "OAuthAccountNotLinked" ? "Email already in use with different provider" : "";
+
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
@@ -44,7 +48,7 @@ const LoginForm = memo(() => {
     startTransition(() => {
       login(values).then((data) =>{
         setError(data.error);
-        setSuccess(data.success);
+        // setSuccess(data.success);
       });
     });
   }, [])
@@ -90,7 +94,7 @@ const LoginForm = memo(() => {
                 </FormItem>
               )}
             />
-            <FormError message={error}/>
+            <FormError message={error || urlError}/>
             <FormSuccess message={success} />
             <Button 
               type="submit"
