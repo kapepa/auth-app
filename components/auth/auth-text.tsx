@@ -8,6 +8,7 @@ enum eType {
 }
 
 interface AuthTextProps {
+  className?: string,
   children: ReactNode,
   type: keyof typeof eType,
 }
@@ -18,16 +19,16 @@ const font = Poppins({
 })
 
 const AuthText: FC<AuthTextProps> = memo((props) => {
-  const {type, children} = props;
+  const {type, children, className} = props;
 
   if(type === eType.label) return (
-    <span className={cn(font.className, "w-full text-center inline-block text-2xl")}>
+    <span className={cn(font.className, "w-full text-center inline-block text-2xl", className)}>
       {children}
     </span>
   )
 
   if(type === eType.string) return (
-    <span className="text-sm text-center">
+    <span className={cn("text-sm text-center", className)}>
       {children}
     </span>
   )

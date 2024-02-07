@@ -44,11 +44,10 @@ const LoginForm = memo(() => {
   const onSubmit = useCallback((values: z.infer<typeof LoginSchema>) => {
     setError("");
     setSuccess("");
-
     startTransition(() => {
       login(values).then((data) =>{
         setError(data.error);
-        // setSuccess(data.success);
+        setSuccess(data.success);
       });
     });
   }, [])
