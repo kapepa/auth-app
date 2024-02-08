@@ -27,13 +27,17 @@ export const {
     }
   },
   callbacks: {
-    // async signIn({ user }) {
-    //   if(!user.id) return false;
-    //   const existingUser = await getUserById(user.id);
-    //   if(!existingUser || !existingUser.emailVerified) return false;
+    async signIn({ user, account, credentials }) {
+      if(account?.provider !== "credentials") return true;
+      
+      if(!user.id) return false;
+      
+      const existingUser = await getUserById(user.id);
 
-    //   return true;
-    // },
+      if(!existingUser || !existingUser.emailVerified) return false;
+
+      return true;
+    },
     async session({ token, session }) {
       if(!!session.user && !!token.sub) session.user.id = token.sub;
       if(!!session.user && !!token.role) session.user.role = token.role;
