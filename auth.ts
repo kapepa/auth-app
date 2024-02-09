@@ -27,7 +27,7 @@ export const {
     }
   },
   callbacks: {
-    async signIn({ user, account, credentials }) {
+    async signIn({ user, account }) {
       if(account?.provider !== "credentials") return true;
       
       if(!user.id) return false;
