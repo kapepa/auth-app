@@ -7,7 +7,7 @@ const sendVerificationEmail = async (email: string, token: string) => {
   const confirmLink = `http://localhost:3000/new-verification?token=${token}`
 
   const { data, error } = await resend.emails.send({
-    from: 'Acme <onboarding@resend.dev>',
+    from: 'Auth App <onboarding@resend.dev>',
     to: email,
     subject: 'Hello world',
     html: `<p>Click <a href=${confirmLink}>here</a></p>`

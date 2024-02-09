@@ -22,9 +22,15 @@ const AuthCard: FC<AuthCardProps> = memo((props) => {
     return (
       <CardHeader className="gap-2">
         {!!title && 
-          <CardTitle children={<AuthText type="label" children={title} />} />}
+          <CardTitle 
+            className="text-center"
+            children={<AuthText type="label" children={title} />} 
+          />}
         {!!description && 
-          <CardDescription children={ <AuthText type="string" children={description} />}/>
+          <CardDescription 
+            className="text-center"
+            children={ <AuthText type="string" children={description} 
+          />}/>
         }
       </CardHeader>
     )
@@ -34,7 +40,9 @@ const AuthCard: FC<AuthCardProps> = memo((props) => {
     if(!content) return;
 
     return (
-      <CardContent children={content} />
+      <CardContent 
+        children={content}
+      />
     )
   }, [content]);
 
