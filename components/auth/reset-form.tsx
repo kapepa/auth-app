@@ -2,7 +2,6 @@
 
 import { memo, useCallback, useMemo, useState, useTransition } from "react";
 import { AuthCard } from "./auth-card";
-import { Social } from "./social";
 import { BackButton } from "./back-button";
 import { Routes } from "@/enums/routing.enum";
 
@@ -19,37 +18,32 @@ import { Input } from "@/components/ui/input"
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "../ui/button";
-import { LoginSchema } from "@/schemas";
+import { ResetSchema } from "@/schemas";
 import { FormError } from "../ui/form-error";
 import { FormSuccess } from "../ui/form-success";
 import { login } from "@/action/login";
-import { useSearchParams } from "next/navigation";
-import Link from "next/link";
 
-const LoginForm = memo(() => {
-  const searchParam = useSearchParams();
-  const urlError = searchParam.get("error") === "OAuthAccountNotLinked" ? "Email already in use with different provider" : "";
+const ResetForm = memo(() => {
 
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
 
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
+  const form = useForm<z.infer<typeof ResetSchema>>({
+    resolver: zodResolver(ResetSchema),
     defaultValues: {
       email: "",
-      password: "",
     }
   });
 
-  const onSubmit = useCallback((values: z.infer<typeof LoginSchema>) => {
+  const onSubmit = useCallback((values: z.infer<typeof ResetSchema>) => {
     setError("");
     setSuccess("");
     startTransition(() => {
-      login(values).then((data) =>{
-        setError(data.error);
-        setSuccess(data.success);
-      });
+      // login(values).then((data) =>{
+      //   setError(data.error);
+      //   setSuccess(data.success);
+      // });
     });
   }, [])
 
@@ -76,25 +70,7 @@ const LoginForm = memo(() => {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input 
-                      placeholder="******"
-                      type="password"
-                      disabled={isPending}
-                      {...field} 
-                    />
-                  </FormControl>
-                  <FormMessage className="text-red-600" />
-                </FormItem>
-              )}
-            />
-            <FormError message={error || urlError} />
+            <FormError message={error} />
             <FormSuccess message={success} />
             <Button
               size="sm"
@@ -102,16 +78,14 @@ const LoginForm = memo(() => {
               asChild
               className="px-0 font-normal"
             >
-              <Link href={Routes.Reset}>Forgot password?</Link>
             </Button>
             <Button 
               type="submit"
               className="w-full bg-slate-900 text-rose-50"
               disabled={isPending}
-            >Login</Button>
+            >Send reset email</Button>
           </form>
         </Form>
-        <Social/>
       </div>
     )
   }, [form.formState.errors, isPending, error, success])
@@ -119,8 +93,8 @@ const LoginForm = memo(() => {
   const footerPart = useMemo(() => {
     return (
       <BackButton 
-        href={Routes.Registration}
-        label="Don't have an account"
+        href={Routes.Login}
+        label="Back to login"
       />
     )
   },[])
@@ -128,11 +102,11 @@ const LoginForm = memo(() => {
   return (
     <AuthCard 
       title="Auth"
-      description="Welcome back"
+      description="Forgot your password?"
       content={contentPart}
       footer={footerPart}
     />
   )
 });
 
-export {LoginForm};
+export {ResetForm };
