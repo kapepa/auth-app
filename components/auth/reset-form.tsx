@@ -22,6 +22,7 @@ import { ResetSchema } from "@/schemas";
 import { FormError } from "../ui/form-error";
 import { FormSuccess } from "../ui/form-success";
 import { login } from "@/action/login";
+import { reset } from "@/action/reset";
 
 const ResetForm = memo(() => {
 
@@ -39,11 +40,13 @@ const ResetForm = memo(() => {
   const onSubmit = useCallback((values: z.infer<typeof ResetSchema>) => {
     setError("");
     setSuccess("");
+
+    console.log(values)
     startTransition(() => {
-      // login(values).then((data) =>{
-      //   setError(data.error);
-      //   setSuccess(data.success);
-      // });
+      reset(values).then((data) =>{
+        setError(data.error);
+        setSuccess(data.success);
+      });
     });
   }, [])
 
