@@ -32,6 +32,7 @@ const LoginForm = memo(() => {
 
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
+  const [showTwoFactor, setShowTwoFactor] = useState<boolean>(false);
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof LoginSchema>>({
@@ -47,53 +48,100 @@ const LoginForm = memo(() => {
     setSuccess("");
     startTransition(() => {
       login(values).then((data) =>{
-        setError(data.error);
-        setSuccess(data.success);
+
+        if(!!data.error) {
+          form.reset();
+          setError(data.error);
+        }
+
+        if(!!data.success) {
+          form.reset();
+          setSuccess(data.success);
+        }
+
+        if(data.twoFactor) setShowTwoFactor(true);
+      }).catch(() => {
+        setError("Something went wrong!");
       });
     });
   }, [])
+
+  const defaultLogin = useMemo(() => {
+    return (
+      <>
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input 
+                  placeholder="email@example.com"
+                  type="email"
+                  disabled={isPending}
+                  {...field} 
+                />
+                </FormControl>
+                <FormMessage className="text-red-600" />
+              </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Password</FormLabel>
+              <FormControl>
+                <Input 
+                  placeholder="******"
+                  type="password"
+                  disabled={isPending}
+                  {...field} 
+                />
+              </FormControl>
+              <FormMessage className="text-red-600" />
+            </FormItem>
+          )}
+        />        
+      </>
+    )
+  }, [form]);
+
+  const twoFactorLogin = useMemo(() => {
+    return (
+      <FormField
+        control={form.control}
+        name="code"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Two Factor Code</FormLabel>
+            <FormControl>
+              <Input 
+                placeholder="123456"
+                type="text"
+                disabled={isPending}
+                {...field} 
+              />
+              </FormControl>
+              <FormMessage className="text-red-600" />
+            </FormItem>
+        )}
+      />
+    )
+  }, []);
+
+  const nameBtn = useMemo(() => {
+    return showTwoFactor ? "Confirm" : "Login";
+  }, [showTwoFactor])
 
   const contentPart = useMemo(() => {
     return (
       <div className="flex flex-col gap-y-2">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input 
-                      placeholder="email@example.com"
-                      type="email"
-                      disabled={isPending}
-                      {...field} 
-                    />
-                  </FormControl>
-                  <FormMessage className="text-red-600" />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input 
-                      placeholder="******"
-                      type="password"
-                      disabled={isPending}
-                      {...field} 
-                    />
-                  </FormControl>
-                  <FormMessage className="text-red-600" />
-                </FormItem>
-              )}
-            />
+            { showTwoFactor ? twoFactorLogin : defaultLogin }
             <FormError message={error || urlError} />
             <FormSuccess message={success} />
             <Button
@@ -108,7 +156,7 @@ const LoginForm = memo(() => {
               type="submit"
               className="w-full bg-slate-900 text-rose-50"
               disabled={isPending}
-            >Login</Button>
+            >{nameBtn}</Button>
           </form>
         </Form>
         <Social/>
