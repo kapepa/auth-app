@@ -1,18 +1,24 @@
-import { auth, signOut } from "@/auth";
-import { NextPage } from "next";
+"use client"
 
-const SettingsPage: NextPage = async () => {
-  const session = await auth();
+import { signOut } from "@/auth";
+import { NextPage } from "next";
+import { useSession } from "next-auth/react";
+import { useCallback } from "react";
+
+const SettingsPage: NextPage = () => {
+  const session = useSession();
+
+  const onSing = useCallback(() => {
+    signOut();
+  }, [])
 
   return (
     <div>
       {JSON.stringify(session)}
-      <form action={ async () => {
-        "use server"
-
-        await signOut();
-      }}>
-        <button type="submit">Sing out</button>
+      <form >
+        <button
+          onClick={onSing}
+        >Sing out</button>
       </form>
     </div>
   )

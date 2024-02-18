@@ -8,8 +8,9 @@ import * as z from "zod";
 import { generateTwoFactorTokenEmail, generateVerificationToken } from "@/lib/tokens";
 import { getUserByEmail } from "@/data/user";
 import { sendTwoFactorTokenEmail, sendVerificationEmail } from "@/lib/mail";
-import { getTwoFactorTokenByEmail } from "@/data/two-factor-token";
+import { getTwoFactorTokenByEmail, getTwoFactorTokenByToken } from "@/data/two-factor-token";
 import { db } from "@/lib/db";
+import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
   const result = LoginSchema.safeParse(values);
@@ -41,7 +42,12 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 
       await db.twoFactorToken.delete({ where: { id: twoFactorTokenEmail.id } });
 
-      // const existingConfirmatio = await generate
+      const existingConfirmation = await getTwoFactorConfirmationByUserId(existingUser.id);
+
+      if(existingConfirmation) await db.twoFactorConfirmation.delete({ where: { id: existingConfirmation.id } });
+
+      await db.twoFactorConfirmation.create({ data: { userId: existingUser.id } });
+      
     } else {
       const twoFactorTokenEmail = await generateTwoFactorTokenEmail(existingUser.email);
 

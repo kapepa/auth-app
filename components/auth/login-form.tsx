@@ -48,6 +48,7 @@ const LoginForm = memo(() => {
     setSuccess("");
     startTransition(() => {
       login(values).then((data) =>{
+        console.log(data)
 
         if(!!data.error) {
           form.reset();
