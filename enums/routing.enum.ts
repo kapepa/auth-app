@@ -3,5 +3,9 @@ export enum Routes {
   Login = '/login',
   Reset = '/reset',
   Registration = '/registration',
-  Error="/error",
+  Error = "/error",
+  Settings = "/settings",
+  Server = "/server",
+  Client = "/client",
+  Admin = "/admin",
 }

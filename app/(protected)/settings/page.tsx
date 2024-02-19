@@ -1,25 +1,23 @@
 "use client"
 
-import { signOut } from "@/auth";
+import { logout } from "@/action/logout";
+import { useCurrentUser } from "@/hooks/use-current-user";
 import { NextPage } from "next";
-import { useSession } from "next-auth/react";
 import { useCallback } from "react";
 
 const SettingsPage: NextPage = () => {
-  const session = useSession();
+  const user =  useCurrentUser();
+ 
 
   const onSing = useCallback(() => {
-    signOut();
+    logout();
   }, [])
 
   return (
-    <div>
-      {JSON.stringify(session)}
-      <form >
-        <button
-          onClick={onSing}
-        >Sing out</button>
-      </form>
+    <div className="bg-white p-10 rounded-xl">
+      <button
+        onClick={onSing}
+      >Sing out</button>
     </div>
   )
 };
