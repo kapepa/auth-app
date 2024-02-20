@@ -1,13 +1,15 @@
 "use client"
 
 import { logout } from "@/action/logout";
+import { cn } from "@/lib/utils";
 import { FC, ReactNode, useCallback } from "react"
 
 interface LogoutButtonProps {
-  children: ReactNode, 
+  children: ReactNode,
+  className?: string
 }
 
-const LogoutButton: FC<LogoutButtonProps> = ({ children }) => {
+const LogoutButton: FC<LogoutButtonProps> = ({ children, className }) => {
   const onLogout = useCallback(() => {
     logout();
   }, []);
@@ -15,7 +17,7 @@ const LogoutButton: FC<LogoutButtonProps> = ({ children }) => {
   return (
     <span
       onClick={onLogout}
-      className="cursor-pointer"
+      className={cn("cursor-pointer", className)}
     >
       {children}
     </span>  
