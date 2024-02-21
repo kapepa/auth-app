@@ -5,10 +5,11 @@ import { db } from "./lib/db";
 import { getUserById } from "./data/user";
 import { Routes } from "./enums/routing.enum";
 import { getTwoFactorConfirmationByUserId } from "./data/two-factor-confirmation";
+import { ExtendedUser } from "./type/user";
 
 declare module "next-auth" {
   interface Session {
-    user: {role: "ADMIN" | "USER"} & DefaultSession["user"],
+    user: ExtendedUser,
   }
 }
 
@@ -50,6 +51,7 @@ export const {
     async session({ token, session }) {
       if(!!session.user && !!token.sub) session.user.id = token.sub;
       if(!!session.user && !!token.role) session.user.role = token.role;
+      if(token.isTwoFactorEnable && !!token) session.user.isTwoFactorEnable = token.isTwoFactorEnable;
 
       return session;
     },
@@ -60,6 +62,8 @@ export const {
       if(!existingUser) return token;
 
       token.role = existingUser.role;
+      token.isTwoFactorEnable = existingUser.isTwoFactorEnable;
+
       return token;
     },
   },
