@@ -1,11 +1,11 @@
 "use client"
 
 import { UserInfo } from "@/components/ui/user-info";
-import { currentUser } from "@/lib/auth";
+import { useCurrentUser } from "@/hooks/use-current-user";
 import { NextPage } from "next";
 
 const ClientPage: NextPage = () => {
-  const user = currentUser();
+  const user = useCurrentUser();
 
   return (
     <UserInfo

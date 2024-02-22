@@ -4,7 +4,7 @@ import { ExtendedUser } from "@/type/user";
 import { Badge } from "./badge";
 
 interface UserInfoProps {
-  user?: ExtendedUser,
+  user?: ExtendedUser | undefined,
   label: string,
 }
 
