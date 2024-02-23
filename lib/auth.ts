@@ -6,4 +6,10 @@ const currentUser = async () => {
   return session?.user;
 }
 
-export { currentUser }
+const currentRole = async () => {
+  const session = await auth();
+
+  return session?.user.role;
+}
+
+export { currentUser, currentRole }
