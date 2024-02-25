@@ -6,6 +6,7 @@ import { getUserById } from "./data/user";
 import { Routes } from "./enums/routing.enum";
 import { getTwoFactorConfirmationByUserId } from "./data/two-factor-confirmation";
 import { ExtendedUser } from "./type/user";
+import { getAccountByUserId } from "./data/account";
 
 declare module "next-auth" {
   interface Session {
@@ -52,6 +53,11 @@ export const {
       if(!!session.user && !!token.sub) session.user.id = token.sub;
       if(!!session.user && !!token.role) session.user.role = token.role;
       if(token.isTwoFactorEnable && !!token) session.user.isTwoFactorEnable = token.isTwoFactorEnable;
+      if(!!session.user) {
+        session.user.name = token.name;
+        session.user.email = token.email;
+        session.user.isOAuth = token.isOAuth as boolean;
+      };
 
       return session;
     },
@@ -61,6 +67,11 @@ export const {
       const existingUser = await getUserById(token.sub);
       if(!existingUser) return token;
 
+      const existingAccount = await getAccountByUserId(existingUser.id);
+
+      token.isOAuth = !!existingAccount;
+      token.name = existingUser.name;
+      token.email = existingUser.email;
       token.role = existingUser.role;
       token.isTwoFactorEnable = existingUser.isTwoFactorEnable;
 
