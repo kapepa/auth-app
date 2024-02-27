@@ -8,6 +8,7 @@ import { FormError } from "@/components/ui/form-error";
 import { FormSuccess } from "@/components/ui/form-success";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { SettingsSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -162,11 +163,33 @@ const SettingsPage: NextPage = () => {
                           <SelectValue placeholder="Select a role" />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent className="z-10">
+                      <SelectContent className="z-10 bg-white">
                         <SelectItem value={UserRole.ADMIN}>{UserRole.ADMIN}</SelectItem>
                         <SelectItem value={UserRole.USER}>{UserRole.USER}</SelectItem>
                       </SelectContent>
                     </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+                            <FormField
+                control={form.control}
+                name="isTwoFactorEnable"
+                render={({ field }) => (
+                  <FormItem 
+                    className="flex flex-row justify-between rounded-lg border p-3 shadow-sm"
+                  >
+                    <div className="space-y-0.5">
+                      <FormLabel>Two factor authentication</FormLabel>
+                      <FormDescription>Enablr two factor authentication for your account</FormDescription>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        disabled={isPending}
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
