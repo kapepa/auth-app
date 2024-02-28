@@ -2,6 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { FC, ReactNode, useCallback } from "react";
+import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
+import { LoginForm } from "./login-form";
 
 enum eMode {
   "modal",
@@ -10,7 +12,7 @@ enum eMode {
 
 interface LoginButtonProps {
   children: ReactNode,
-  mode?: eMode,
+  mode?: keyof typeof eMode,
   asChild?: boolean,
 }
 
@@ -23,9 +25,14 @@ const LoginButton: FC<LoginButtonProps> = (props) => {
     router.push("/login")
   }, [router])
 
-  if(mode === eMode.modal) {
+  if(eMode[mode] === eMode.modal) {
     return (
-      <span>TODO: Implement modal</span>
+      <Dialog>
+        <DialogTrigger>{children}</DialogTrigger>
+        <DialogContent className="p-0 w-auto bg-transparent border-none">
+          <LoginForm/>
+        </DialogContent>
+      </Dialog>
     )
   }
 

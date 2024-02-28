@@ -14,12 +14,12 @@ export default function Home() {
   return (
     <main className="flex h-full flex-col items-center justify-center bg-sky-500">
       <div className="space-y-6">
-        <Card>
+        <Card className="bg-transparent border-none shadow-none">
           <CardHeader>
             <CardTitle >
               <AuthText 
                 type="label"
-                className={cn("text-6xl font-semibold text-white drop-shadow-md text-center", font.className)}
+                className={cn("text-6xl font-semibold drop-shadow-md text-center text-white", font.className)}
               >
                 Auth
               </AuthText> 
@@ -28,13 +28,13 @@ export default function Home() {
           <CardContent>
             <AuthText 
               type="string" 
-              className="text-white text-lg"
+              className="text-lg text-white"
             >
               A simple authentication service
             </AuthText>
           </CardContent>
           <CardFooter className="flex-col">
-            <LoginButton>
+            <LoginButton asChild>
               <Button variant="secondary" size="lg">
                 Sing in
               </Button>
