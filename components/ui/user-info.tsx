@@ -18,59 +18,48 @@ const UserInfo: FC<UserInfoProps> = (props) => {
       <CardHeader>
         <p
           className="text-2xl font-semibold text-center"
-          children={label}
-        />
+        >{label}</p>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
           <p
             className="text-sm font-medium"
-            children="ID"
-          />
+          >ID</p>
           <p
             className="truncate text-xs max-w-[180px] font-mono bg-slate-100 rounded-md"
-            children={user?.id}
-          />
+          >{user?.id}</p>
         </div>
         <div className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
           <p
             className="text-sm font-medium"
-            children="Name"
-          />
+          >Name</p>
           <p
             className="truncate text-xs max-w-[180px] font-mono bg-slate-100 rounded-md"
-            children={user?.name}
-          />
+          >{user?.name}</p>
         </div>
         <div className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
           <p
             className="text-sm font-medium"
-            children="Email"
-          />
+          >Email</p>
           <p
             className="truncate text-xs max-w-[180px] font-mono bg-slate-100 rounded-md"
-            children={user?.email}
-          />
+          >{user?.email}</p>
         </div>
         <div className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
           <p
             className="text-sm font-medium"
-            children="Role"
-          />
+          >Role</p>
           <p
             className="truncate text-xs max-w-[180px] font-mono bg-slate-100 rounded-md"
-            children={user?.role}
-          />
+          >{user?.role}</p>
         </div>
         <div className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
           <p
             className="text-sm font-medium"
-            children="Two Factor Authentication"
-          />
+          >Two Factor Authentication</p>
           <Badge
             variant={user?.isTwoFactorEnable ? "success" : "destructive"}
-            children={user?.isTwoFactorEnable ? "ON" : "OFF"}
-          />
+          >{user?.isTwoFactorEnable ? "ON" : "OFF"}</Badge>
         </div>
       </CardContent>
     </Card>

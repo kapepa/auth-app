@@ -1,6 +1,6 @@
 "use client"
 
-import { memo, useCallback, useMemo, useState, useTransition } from "react";
+import { useCallback, useMemo, useState, useTransition } from "react";
 import { AuthCard } from "./auth-card";
 import { Social } from "./social";
 import { BackButton } from "./back-button";
@@ -24,7 +24,7 @@ import { FormError } from "../ui/form-error";
 import { FormSuccess } from "../ui/form-success";
 import { Registration } from "@/action/registration";
 
-const RegistrationForm = memo(() => {
+const RegistrationForm = () => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
@@ -121,7 +121,7 @@ const RegistrationForm = memo(() => {
         <Social/>
       </div>
     )
-  }, [form.formState.errors, isPending, error, success])
+  }, [form, onSubmit, isPending, error, success]);
 
   const footerPart = useMemo(() => {
     return (
@@ -140,6 +140,6 @@ const RegistrationForm = memo(() => {
       footer={footerPart}
     />
   )
-});
+};
 
 export {RegistrationForm};

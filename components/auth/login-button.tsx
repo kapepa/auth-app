@@ -40,8 +40,9 @@ const LoginButton: FC<LoginButtonProps> = (props) => {
     <span
       className="cursor-pointer"
       onClick={onClick}
-      children={children}
-    />
+    >
+      {children}
+    </span>
   )
 }
 

@@ -1,6 +1,6 @@
 "use client"
 
-import { memo, useCallback, useMemo, useState, useTransition } from "react";
+import { useCallback, useMemo, useState, useTransition } from "react";
 import { AuthCard } from "./auth-card";
 import { BackButton } from "./back-button";
 import { Routes } from "@/enums/routing.enum";
@@ -24,7 +24,7 @@ import { FormSuccess } from "../ui/form-success";
 import { login } from "@/action/login";
 import { reset } from "@/action/reset";
 
-const ResetForm = memo(() => {
+const ResetForm = () => {
 
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
@@ -91,7 +91,7 @@ const ResetForm = memo(() => {
         </Form>
       </div>
     )
-  }, [form.formState.errors, isPending, error, success])
+  }, [form, isPending, error, success, onSubmit])
 
   const footerPart = useMemo(() => {
     return (
@@ -110,6 +110,6 @@ const ResetForm = memo(() => {
       footer={footerPart}
     />
   )
-});
+};
 
 export {ResetForm };

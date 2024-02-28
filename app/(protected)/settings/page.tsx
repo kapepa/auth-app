@@ -49,7 +49,7 @@ const SettingsPage: NextPage = () => {
         .catch((e) => setError("Something went wrong!"))
         .finally(() => update());
     });
-  }, [form])
+  }, [update])
 
   return (
     <Card className="bg-white w-[600px]">

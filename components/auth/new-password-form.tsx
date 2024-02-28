@@ -1,6 +1,6 @@
 "use client"
 
-import { memo, useCallback, useMemo, useState, useTransition } from "react";
+import { useCallback, useMemo, useState, useTransition } from "react";
 import { AuthCard } from "./auth-card";
 import { BackButton } from "./back-button";
 import { Routes } from "@/enums/routing.enum";
@@ -25,7 +25,7 @@ import { reset } from "@/action/reset";
 import { useSearchParams } from "next/navigation";
 import { newPassword } from "@/action/new-password";
 
-const NewPasswordForm = memo(() => {
+const NewPasswordForm = () => {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
 
@@ -50,7 +50,7 @@ const NewPasswordForm = memo(() => {
         setSuccess(data.success);
       });
     });
-  }, [])
+  }, [token])
 
   const contentPart = useMemo(() => {
     return (
@@ -93,7 +93,7 @@ const NewPasswordForm = memo(() => {
         </Form>
       </div>
     )
-  }, [form.formState.errors, isPending, error, success])
+  }, [form, onSubmit, isPending, error, success]);
 
   const footerPart = useMemo(() => {
     return (
@@ -112,6 +112,6 @@ const NewPasswordForm = memo(() => {
       footer={footerPart}
     />
   )
-});
+};
 
 export { NewPasswordForm };

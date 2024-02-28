@@ -1,6 +1,6 @@
 "use client"
 
-import { FC, memo, useCallback } from "react";
+import { FC, useCallback } from "react";
 import { IoLogoGoogle } from "react-icons/io";
 import { FaGithub } from "react-icons/fa";
 import { Button } from "../ui/button";
@@ -13,13 +13,13 @@ enum ESocial {
   GITHUB = "github",
 }
 
-const Social: FC = memo(() => {
+const Social: FC = () => {
   const searchParam = useSearchParams();
   const callbackUrl = searchParam.get("callbackUrl");
 
   const onClick = useCallback((provider: ESocial) => {
     signIn(provider, { callback: callbackUrl || DEFAULT_LOGIN_REDIRECT })
-  }, []);
+  }, [callbackUrl]);
 
   return (
     <div className="flex items-center w-full gap-x-2">
@@ -41,6 +41,6 @@ const Social: FC = memo(() => {
       </Button>
     </div>
   )
-});
+};
 
 export { Social };

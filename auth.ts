@@ -49,7 +49,7 @@ export const {
 
       return true;
     },
-    async session({ token, session }) {
+    async session({ token, session }: any) {
       if(!!session.user && !!token.sub) session.user.id = token.sub;
       if(!!session.user && !!token.role) session.user.role = token.role;
       if(token.isTwoFactorEnable && !!token) session.user.isTwoFactorEnable = token.isTwoFactorEnable;

@@ -29,7 +29,7 @@ const NewVerificationForm: FC = () => {
       .catch(() => {
         setError("Something went wrong!");
       });
-  }, [token]);
+  }, [token, success, error]);
 
   const contentPart = useMemo(() => {
     const beSuccess = !!success ? <FormSuccess message={success} /> : null;

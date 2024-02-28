@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Poppins } from "next/font/google";
-import { FC, ReactNode, memo } from "react";
+import { FC, ReactNode } from "react";
 
 enum eType {
   label = "label",
@@ -18,7 +18,7 @@ const font = Poppins({
   weight: ["600"]
 })
 
-const AuthText: FC<AuthTextProps> = memo((props) => {
+const AuthText: FC<AuthTextProps> = (props) => {
   const {type, children, className} = props;
 
   if(type === eType.label) return (
@@ -32,6 +32,6 @@ const AuthText: FC<AuthTextProps> = memo((props) => {
       {children}
     </span>
   )
-});
+};
 
 export { AuthText }
