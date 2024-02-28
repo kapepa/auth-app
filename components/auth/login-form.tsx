@@ -1,6 +1,6 @@
 "use client"
 
-import { memo, useCallback, useMemo, useState, useTransition } from "react";
+import { useCallback, useMemo, useState, useTransition } from "react";
 import { AuthCard } from "./auth-card";
 import { Social } from "./social";
 import { BackButton } from "./back-button";
@@ -26,7 +26,7 @@ import { login } from "@/action/login";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
-const LoginForm = memo(() => {
+const LoginForm = () => {
   const searchParam = useSearchParams();
   const callbackUrl = searchParam.get("callbackUrl");
   const urlError = searchParam.get("error") === "OAuthAccountNotLinked" ? "Email already in use with different provider" : "";
@@ -66,7 +66,7 @@ const LoginForm = memo(() => {
         setError("Something went wrong!");
       });
     });
-  }, [])
+  }, [form, callbackUrl])
 
   const defaultLogin = useMemo(() => {
     return (
@@ -109,7 +109,7 @@ const LoginForm = memo(() => {
         />        
       </>
     )
-  }, [form]);
+  }, [form, isPending]);
 
   const twoFactorLogin = useMemo(() => {
     return (
@@ -132,7 +132,7 @@ const LoginForm = memo(() => {
         )}
       />
     )
-  }, []);
+  }, [form.control, isPending]);
 
   const nameBtn = useMemo(() => {
     return showTwoFactor ? "Confirm" : "Login";
@@ -164,7 +164,7 @@ const LoginForm = memo(() => {
         <Social/>
       </div>
     )
-  }, [form.formState.errors, isPending, error, success])
+  }, [isPending, error, success, defaultLogin, urlError, form, nameBtn, onSubmit, showTwoFactor, twoFactorLogin])
 
   const footerPart = useMemo(() => {
     return (
@@ -183,6 +183,6 @@ const LoginForm = memo(() => {
       footer={footerPart}
     />
   )
-});
+};
 
 export {LoginForm};

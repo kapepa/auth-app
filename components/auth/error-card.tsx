@@ -1,10 +1,10 @@
-import { FC, memo, useMemo } from "react";
+import { FC, useMemo } from "react";
 import { BackButton } from "./back-button";
 import { Routes } from "@/enums/routing.enum";
 import { AuthCard } from "./auth-card";
 import { FiAlertTriangle } from "react-icons/fi";
 
-const ErrorCard: FC = memo(() => {
+const ErrorCard: FC = () => {
 
   const contentPart = useMemo(() => {
     return (
@@ -26,6 +26,6 @@ const ErrorCard: FC = memo(() => {
       }
     />
     )
-})
+}
 
 export {ErrorCard};

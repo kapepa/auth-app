@@ -1,6 +1,6 @@
 "use client"
 
-import { FC, ReactNode, memo, useMemo } from "react";
+import { FC, ReactNode,  useMemo } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card";
 import { AuthText } from "./auth-text";
 import { cn } from "@/lib/utils";
@@ -13,7 +13,7 @@ interface AuthCardProps {
   className?: string
 }
 
-const AuthCard: FC<AuthCardProps> = memo((props) => {
+const AuthCard: FC<AuthCardProps> = (props) => {
   const { title, description, content, footer, className } = props;
 
   const HeaderPart = useMemo(() => {
@@ -24,33 +24,34 @@ const AuthCard: FC<AuthCardProps> = memo((props) => {
         {!!title && 
           <CardTitle 
             className="text-center"
-            children={<AuthText type="label" children={title} />} 
-          />}
+          >
+            <AuthText type="label">{title}</AuthText>
+          </CardTitle>
+        }
         {!!description && 
           <CardDescription 
             className="text-center"
-            children={ <AuthText type="string" children={description} 
-          />}/>
+          >
+            <AuthText type="string">{description}</AuthText>
+          </CardDescription>
         }
       </CardHeader>
     )
   },[title, description]);
 
   const ContentPart = useMemo(() => {
-    if(!content) return;
+    if(!content) return null;
 
     return (
-      <CardContent 
-        children={content}
-      />
+      <CardContent>{content}</CardContent>
     )
   }, [content]);
 
   const FooterPart = useMemo(() => {
-    if(!footer) return;
+    if(!footer) return null;
 
     return (
-      <CardFooter className="justify-center" children={footer} />
+      <CardFooter className="justify-center">{footer}</CardFooter>
     )
   }, [footer])
 
@@ -61,6 +62,6 @@ const AuthCard: FC<AuthCardProps> = memo((props) => {
       {FooterPart}
     </Card>
   )
-});
+};
 
 export { AuthCard };
