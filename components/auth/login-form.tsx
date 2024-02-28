@@ -28,6 +28,7 @@ import Link from "next/link";
 
 const LoginForm = memo(() => {
   const searchParam = useSearchParams();
+  const callbackUrl = searchParam.get("callbackUrl");
   const urlError = searchParam.get("error") === "OAuthAccountNotLinked" ? "Email already in use with different provider" : "";
 
   const [error, setError] = useState<string | undefined>("");
@@ -47,7 +48,7 @@ const LoginForm = memo(() => {
     setError("");
     setSuccess("");
     startTransition(() => {
-      login(values).then((data) =>{
+      login(values, callbackUrl).then((data) =>{
         console.log(data)
 
         if(!!data.error) {
